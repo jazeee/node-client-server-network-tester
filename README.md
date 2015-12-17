@@ -1,7 +1,7 @@
 ## Simple Node http client server test utility
 
 To run:
-coffee server <port>
+coffee server <port> <minimumKBSize> <maximumKBSize>
 coffee client <hostname> <port> <delayInSeconds> <iterations>
 
 
