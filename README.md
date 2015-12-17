@@ -2,7 +2,7 @@
 
 To run:
 coffee server <port>
-coffee client <hostname> <port> <iterations>
+coffee client <hostname> <port> <delayInSeconds> <iterations>
 
 
 All parameters are optional.
