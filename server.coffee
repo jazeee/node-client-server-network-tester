@@ -12,7 +12,8 @@ maximumSize = (+maximumSize) * 1024
 console.log "Generating bytes between #{minimumSize} and #{maximumSize}"
 
 generateRandomStringsTwoWays = ->
-	size = minimumSize + Math.Random() * (maximumSize - minimumSize)
+	size = minimumSize + Math.random() * (maximumSize - minimumSize)
+	size = Math.floor size
 	console.log "Byte size: #{size/1024} KB"
 	randomBytes = crypto.randomBytes size
 
