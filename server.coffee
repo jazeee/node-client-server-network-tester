@@ -1,8 +1,20 @@
 http = require "http"
 crypto = require 'crypto'
 
+minimumSize = process.argv[3]
+minimumSize ?= 256
+minimumSize = (+minimumSize) * 1024
+
+maximumSize = process.argv[4]
+maximumSize ?= 1024
+maximumSize = (+maximumSize) * 1024
+
+console.log "Generating bytes between #{minimumSize} and #{maximumSize}"
+
 generateRandomStringsTwoWays = ->
-	randomBytes = crypto.randomBytes 1024 * 1024
+	size = minimumSize + Math.Random() * (maximumSize - minimumSize)
+	console.log "Byte size: #{size/1024} KB"
+	randomBytes = crypto.randomBytes size
 
 	result = {
 		base64: randomBytes.toString 'base64'
