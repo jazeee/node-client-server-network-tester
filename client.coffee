@@ -26,9 +26,9 @@ getRequest = ->
 			base64Buffer = new Buffer base64, 'base64'
 			hexBuffer = new Buffer hex, 'hex'
 			if base64Buffer.equals hexBuffer
-				console.log "Match on #{iteration}."
+				console.log "Match on #{iteration}, #{base64Buffer.length / 1024} KB."
 			else
-				console.error "Mismatch on #{iteration}."
+				console.error "Mismatch on #{iteration}, #{base64Buffer.length / 1024} KB vs #{hexBuffer.length / 1024} KB."
 	)
 	if i < retryCount
 		setTimeout getRequest, delayTimeInMilliseconds
