@@ -1,9 +1,14 @@
 http = require "http"
 fs = require 'fs'
+#SlowStream = require 'slow-stream'
 
 rootDir = process.argv[3]
 rootDir ?= "/var/www/webapp/assets/"
 filesToServe = []
+
+maximumFileSize = process.argv[4]
+maximumFileSize ?= 16384
+console.log "maximumFileSize=#{maximumFileSize}"
 
 scanDirectory = (dir) ->
 	console.log "Scanning #{dir}"
@@ -12,20 +17,22 @@ scanDirectory = (dir) ->
 		file = "#{dir}/#{file}"
 		stat = fs.lstatSync file
 		if stat.isFile()
-			filesToServe.push file
+			if stat.size <= maximumFileSize
+				filesToServe.push file
 		else if stat.isDirectory()
 			scanDirectory(file)
-		console.log filesToServe
 
 scanDirectory rootDir
+console.log filesToServe
 
 server = http.createServer ( request, response ) ->
 	console.log "Connected"
 	file = filesToServe[Math.floor Math.random() * filesToServe.length]
 	console.log "Serving #{file}"
 	stream = fs.createReadStream file
-	stream.pipe response
-	request.on "end", -> console.log "Disconnected"
+#		.pipe new SlowStream maxWriteInterval: 500 #Milliseconds per chunk
+		.pipe response
+	request.on "end", -> console.log "Disconnected. Served #{file}"
 
 port = process.argv[2]
 port ?= 9998
